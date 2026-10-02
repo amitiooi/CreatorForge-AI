@@ -1,15 +1,36 @@
-# v0 sandbox internal files
+# Editor and preview infrastructure, never application source
 __v0_runtime_loader.js
 __v0_devtools.tsx
 __v0_jsx-dev-runtime.ts
 .snowflake/
 .v0-trash/
 .vercel/
+.v0/
+user_read_only_context/
 
-# Environment variables
-.env*.local
+# Secrets: only the documented, non-secret example is tracked
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.npmrc
 
-# Common ignores
-node_modules
+# Dependencies and generated outputs
+node_modules/
 .next/
+out/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+*.log
+
+# Local editor and OS files
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/

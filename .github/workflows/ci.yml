@@ -1,0 +1,38 @@
+name: Foundation checks
+
+# Manual only: review included Actions usage and spending limits before running.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foundation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Set up pinned pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install from lockfile
+        run: pnpm install --frozen-lockfile
+      - name: Lint, type-check, and run foundation tests
+        run: pnpm check
+      - name: Build without deploying
+        run: pnpm build
